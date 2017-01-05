@@ -26,10 +26,9 @@ WORKDIR /samblaster
 RUN make
 RUN mv  samblaster /usr/local/bin
 WORKDIR /
-RUN wget
-https://github.com/lomereiter/sambamba/releases/download/v0.6.1/sambamba_v0.6.1_
-linux.tar.bz2
+RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.1/sambamba_v0.6.1_linux.tar.bz2
 RUN tar -xf sambamba_v0.6.1_linux.tar.bz2
 RUN mv  sambamba_v0.6.1 /usr/local/bin/sambamba
 COPY runQC.sh /usr/local/bin/
 RUN chmod -R +x  /usr/local/bin/
+COPY parseReadDist.R /usr/local/bin/
