@@ -1,6 +1,5 @@
 8254f8aa9f4703674187ab220f669a96  data/readDist.txt
 0e7de55fb3a13f0e42a0aaf4c23c5766  data/readDist.txt_FAIL_qc.txt
-175fc186615eaa13e6f0d59e8e1db823  data/rnaAligned.out.md.sorted.geneBodyCoverage.curves.pdf
 4632502fa8b8148e3e1110c71b96fc3e  data/rnaAligned.out.md.sorted.geneBodyCoverage.r
 54d9f1bfd3e0871a07b30fdba686e337  data/rnaAligned.out.md.sorted.geneBodyCoverage.txt
 014a68548a3bf1fc995052b96828bc64  data/rnaAligned.sortedByCoord.md.bam
