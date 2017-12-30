@@ -1,34 +1,16 @@
-FROM ubuntu:14.04
+FROM python:3
 
-RUN apt-get update && apt-get install -y \
-    python \
-    python-pip \
-    python-dev \
-    build-essential \
-    zlib1g-dev \
-    libcurl4-gnutls-dev \
-    libssl-dev \
-    wget \
-    git \
-    r-base \
-    littler
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  samtools \
+  bedtools \
+  zlib1g-dev \
+  time
 
-RUN pip install RSeQC
+ADD https://github.com/lomereiter/sambamba/releases/download/v0.6.7/sambamba_v0.6.7_linux.tar.bz2 /tmp
+RUN tar -xf /tmp/sambamba_v0.6.7_linux.tar.bz2 -C /usr/local/bin/
 
-RUN mkdir /ref
-ADD http://downloads.sourceforge.net/project/rseqc/BED/Human_Homo_sapiens/hg38_GENCODE_v23.bed.gz /ref
-RUN gzip -df /ref/hg38_GENCODE_v23.bed.gz
-
-RUN git clone git://github.com/GregoryFaust/samblaster.git
-RUN cd /samblaster && make && mv samblaster /usr/local/bin
-
-ADD https://github.com/lomereiter/sambamba/releases/download/v0.6.1/sambamba_v0.6.1_linux.tar.bz2 /
-RUN tar -xf sambamba_v0.6.1_linux.tar.bz2
-RUN mv sambamba_v0.6.1 /usr/local/bin/sambamba
-RUN chmod +x /usr/local/bin/sambamba
+ADD hg38_GENCODE_v23.bed /ref/
 
 WORKDIR /app
-ADD . /app
-ENV PATH /app:$PATH
-
-CMD runQC.sh
+ADD requirements.txt /app
+RUN pip install --no-cache-dir -r requirements.txt
