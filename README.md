@@ -1,8 +1,10 @@
-# Treehouse RNA-Seq QC
-QC of aligned reads for the Treehouse RNA-Seq pipeline
+# BAM UMEND QC
+Calculates the number of Uniquely Mapped Exonic Non-Duplicate (UMEND) reads in a bam file.
+
+Treehouse applies a threshold of 10 million UMEND reads to triage incoming sample files.
 
 ## Overview
-[samblaster](https://github.com/GregoryFaust/samblaster) is used to mark duplicates and [sambamba](http://lomereiter.github.io/sambamba/) is used to sort. Then [RSeqQC](http://rseqc.sourceforge.net/) calculates the reads distribution over exons skipping reads marked qc_failed, PCR duplicate, Unmapped, Non-primary (or secondary). Finally we apply a minimum threshold of 10 million to the estimated count of non-duplicate, uniquely mapped exonic reads.
+[samblaster](https://github.com/GregoryFaust/samblaster) is used to mark duplicates and [sambamba](http://lomereiter.github.io/sambamba/) is used to sort. Then [RSeqQC](http://rseqc.sourceforge.net/) calculates the reads distribution over exons skipping reads marked qc_failed, PCR duplicate, Unmapped, Non-primary (or secondary).
 
 ## Output
 * readDist.txt: The output of RSeqQC read_distribution.py (~1kb)
