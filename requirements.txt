@@ -1,2 +1,1 @@
-pysam
-pybedtools
+RSeQC==2.6.4

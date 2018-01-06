@@ -1,39 +1,23 @@
 build:
-	docker build -t bam_qc .
+	docker build -t ucsctreehouse/bam-umend-qc .
 
 debug:
-	docker run -it --rm \
+	docker run -it --rm --user `id -u`:`id -g` \
+		-v `pwd`/data:/data \
 		-v `pwd`:/app \
-		--user `id -u`:`id -g` \
-		-v ~/scratch:/data \
 		--entrypoint /bin/bash \
-		bam_qc
-
-sort:
-	time sambamba sort --tmpdir /data -t 4 --sort-by-name \
-		--out /data/rnaAligned.sortedByName.bam /data/pipelines/outputs/expression/SRR5163668_1merged.sorted.bam
-
-mark:
-	time sambamba view -h /data/rnaAligned.sortedByName.bam  | \
-		samblaster | \
-		sambamba view --sam-input --format bam /dev/stdin > /data/rnaAligned.sortedByName.md.bam
-
-coord:
-	time sambamba sort --tmpdir /data --show-progress -t 4 \
-		--out=/data/rnaAligned.sortedByCoord.md.bam /data/rnaAligned.sortedByName.md.bam
-
-coverage:
-	time python geneBody_coverage.py -i /data/rnaAligned.sortedByCoord.md.bam -r \
-		/ref/hg38_GENCODE_v23.bed --out-prefix=/data/rnaAligned.out.md.sorted
-
-distribution:
-	time python read_distribution.py -i /data/rnaAligned.sortedByCoord.md.bam -r \
-		/ref/hg38_GENCODE_v23.bed  > /data/readDist.txt
+		ucsctreehouse/bam-umend-qc
 
 test:
-	docker run -it --rm --name bamqc \
+	docker run -it --rm --user `id -u`:`id -g` \
 		-v `pwd`/data:/data \
-		-v `pwd`/TEST.sorted.bam:/data/rnaAligned.sortedByCoord.out.bam \
-		hbeale/treehouse_bam_qc:1.0 runQC.sh
-	echo "Verifying output of test file"
+		ucsctreehouse/bam-umend-qc TEST.bam /data
 	md5sum -c TEST.md5
+
+concordance:
+	docker run -it --rm --user `id -u`:`id -g` \
+		-v /scratch/rcurrie:/data \
+		-v /pod/pstore/groups/treehouse/archive/downstream/TH27_0702_S01/expression/sortedByCoord.md.bam:/data/rnaAligned.sortedByCoord.out.bam:ro \
+		--entrypoint /bin/bash \
+		ucsctreehouse/bam-umend-qc run.sambamba.sh
+	diff -s /scratch/rcurrie/readDist.txt /pod/pstore/groups/treehouse/archive/downstream/TH27_0702_S01/expression/QC/bamQC/readDist.txt
