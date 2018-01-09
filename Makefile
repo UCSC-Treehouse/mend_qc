@@ -1,18 +1,25 @@
-default: build wipe test
-
 build:
-	docker build -t bam_qc .
+	docker build -t ucsctreehouse/bam-umend-qc .
 
-wipe:
-	# Delete the output in /data which is owned by root so using a 
-	# hack to remove when running on shared systems w/o root access
-	docker run -it --rm -v `pwd`/data:/data alpine rm -rf /data/*
+debug:
+	docker run -it --rm --user `id -u`:`id -g` \
+		-v `pwd`/data:/data \
+		-v ~/scratch/tmp:/tmp \
+		-v `pwd`:/app \
+		--entrypoint /bin/bash \
+		ucsctreehouse/bam-umend-qc
 
 test:
-	echo "Running on TEST.sorted.bam"
-	docker run -it --rm \
-		-v `pwd`/data:/data \
-		-v `pwd`/TEST.sorted.bam:/data/rnaAligned.sortedByCoord.out.bam \
-		bam_qc runQC.sh
-	echo "Verifying output of test file"
+	docker run -it --rm --user `id -u`:`id -g` \
+		-v `pwd`/data:/outputs \
+		-v ~/scratch/tmp:/tmp \
+		ucsctreehouse/bam-umend-qc /app/TEST.bam /outputs
 	md5sum -c TEST.md5
+
+concordance:
+	docker run -it --rm --user `id -u`:`id -g` \
+		-v `pwd`/data:/outputs \
+		-v ~/scratch/tmp:/tmp \
+		-v /pod/pstore/groups/treehouse/archive/downstream/TH27_0702_S01/expression/sortedByCoord.md.bam:/sample.bam:ro \
+		ucsctreehouse/bam-umend-qc /sample.bam /outputs
+	diff -s data/readDist.txt /pod/pstore/groups/treehouse/archive/downstream/TH27_0702_S01/expression/QC/bamQC/readDist.txt

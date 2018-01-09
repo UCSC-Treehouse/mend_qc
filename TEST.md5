@@ -1,9 +1,3 @@
+e11b6c70f5f1ad12ea1755a5d7b9cca7  data/bam_umend_qc.json
+36a210e328bc172bb64d98e43c6d8f11  data/bam_umend_qc.tsv
 8254f8aa9f4703674187ab220f669a96  data/readDist.txt
-0e7de55fb3a13f0e42a0aaf4c23c5766  data/readDist.txt_FAIL_qc.txt
-4632502fa8b8148e3e1110c71b96fc3e  data/rnaAligned.out.md.sorted.geneBodyCoverage.r
-54d9f1bfd3e0871a07b30fdba686e337  data/rnaAligned.out.md.sorted.geneBodyCoverage.txt
-014a68548a3bf1fc995052b96828bc64  data/rnaAligned.sortedByCoord.md.bam
-b24246360db297d9f7b62bd5d18cc783  data/rnaAligned.sortedByCoord.md.bam.bai
-d41d8cd98f00b204e9800998ecf8427e  data/rnaAligned.sortedByCoord.out.bam
-73f8342fee34d1d7c362eee5b86a719c  data/rnaAligned.sortedByName.bam
-3a70ba6fc77999fc52ac600251c582f8  data/rnaAligned.sortedByName.md.bam

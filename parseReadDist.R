@@ -25,16 +25,20 @@ if ( ! file.info(f)$size==0){
 	readCount= readCountTimes2/2
 	estExonicReads= estExonicReadsTimes2/2
 	
-	result=data.frame(input=f, uniqMappedNonDupeReadCount=readCount, estExonicUniqMappedNonDupeReadCount = estExonicReads)
+	result=data.frame(input=basename(f), 
+                    uniqMappedNonDupeReadCount=readCount,
+                    estExonicUniqMappedNonDupeReadCount=estExonicReads)
 	
-	
-	if(estExonicReads>10E6){
+	if(estExonicReads>10E6) {
 		result$qc="PASS"
-		write.table(result, file=paste0(f, "_PASS_qc.txt"), quote=FALSE, sep="\t", row.names=FALSE)
 	} else {
 		result$qc="FAIL"
-		write.table(result, file=paste0(f, "_FAIL_qc.txt"), quote=FALSE, sep="\t", row.names=FALSE)
 	}
+  write.table(result, file=paste0(dirname(f), "/bam_umend_qc.tsv"), quote=FALSE, sep="\t", row.names=FALSE)
 
+  library(rjson)
+  sink(paste0(dirname(f), "/bam_umend_qc.json"))
+  cat(toJSON(result))
+  sink()
 }
 
