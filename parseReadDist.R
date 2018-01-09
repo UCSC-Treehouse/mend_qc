@@ -27,7 +27,7 @@ if ( ! file.info(f)$size==0){
 	
 	result=data.frame(input=basename(f), 
                     uniqMappedNonDupeReadCount=readCount,
-                    estExonicUniqMappedNonDupeReadCount = estExonicReads)
+                    estExonicUniqMappedNonDupeReadCount=estExonicReads)
 	
 	if(estExonicReads>10E6) {
 		result$qc="PASS"

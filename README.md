@@ -8,7 +8,7 @@ Treehouse applies a threshold of 10 million UMEND reads to triage incoming sampl
 
 ## Output
 * readDist.txt: The output of RSeqQC read_distribution.py (~1kb)
-* bam_umend_qc.tsv: uniqMappedNonDupeReadCount, estExonicUniqMappedNonDupeReadCount and pass/fail
+* bam_umend_qc.tsv: uniqMappedNonDupeReadCount, estExonicUniqMappedNonDupeReadCount and PASS/FAIL
 * bam_umend_qc.json: Same as bam_umend_qc.tsv but in json format
 
 ## Running 
