@@ -18,10 +18,13 @@ via Docker:
 docker run --rm \
   -v <path to bam file>:/inputs/sample.bam \
   -v <path to output>:/outputs \
+  -v <path to tmp space>:/tmp \
   ucsctreehouse/bam-umend-qc \
     /inputs/sample.bam \
     /outputs
 ```
+
+Note: Intermediate bam files are created under /tmp within the docker container.
 
 Directly:
 
