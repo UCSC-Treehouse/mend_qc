@@ -1,3 +1,5 @@
 e11b6c70f5f1ad12ea1755a5d7b9cca7  data/bam_umend_qc.json
 36a210e328bc172bb64d98e43c6d8f11  data/bam_umend_qc.tsv
 8254f8aa9f4703674187ab220f669a96  data/readDist.txt
+01e0945ee7b90e43299cdb66359579e6  data/sortedByCoord.md.bam
+898a0201d265e841f6315775adc93a09  data/sortedByCoord.md.bam.bai
