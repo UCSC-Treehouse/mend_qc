@@ -1,4 +1,4 @@
-# BAM MEND QC
+# MEND QC
 Calculates the number of Mapped Exonic Non-Duplicate (MEND) reads in a bam file.
 
 Treehouse applies a threshold of 10 million MEND reads to triage incoming sample files.
