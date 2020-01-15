@@ -13,8 +13,8 @@ RUN wget -qO- https://github.com/GregoryFaust/samblaster/releases/download/v.0.1
   && cd /tmp/samblaster-v.0.1.24/ && make && mv samblaster /usr/local/bin && rm -rf /tmp/samblaster-v-0.1.24
 
 WORKDIR /ref
-RUN wget -qO- https://downloads.sourceforge.net/project/rseqc/BED/Human_Homo_sapiens/hg38_GENCODE_v23_basic.bed.gz \
-  | gunzip -c > /ref/hg38_GENCODE_v23_basic.bed
+ADD hg38_GENCODE_v23_basic.bed.gz /ref/hg38_GENCODE_v23_basic.bed.gz
+RUN gunzip -c /ref/hg38_GENCODE_v23_basic.bed.gz > /ref/hg38_GENCODE_v23_basic.bed
 
 WORKDIR /app
 ADD ./requirements.txt /app/requirements.txt
