@@ -56,3 +56,4 @@ processing /tmp/TEST.bam.sortedByCoord.md.bam ... Finished
 [1] "analyzing /data/readDist.txt"
 Read 3 items
 ```
+Use cases and rationale are discussed in [this pre-print](https://www.biorxiv.org/content/10.1101/716829v1)
