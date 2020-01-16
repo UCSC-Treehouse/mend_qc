@@ -1,7 +1,7 @@
 # MEND QC
 Calculates the number of Mapped Exonic Non-Duplicate (MEND) reads in a bam file.
 
-Treehouse applies a threshold of 10 million MEND reads to triage incoming sample files.
+Treehouse applies a threshold of 10 million MEND reads to triage incoming sample files. Use cases and rationale are discussed in [this pre-print](https://www.biorxiv.org/content/10.1101/716829v1)
 
 ## Overview
 [samblaster](https://github.com/GregoryFaust/samblaster) is used to mark duplicates and [sambamba](http://lomereiter.github.io/sambamba/) is used to sort. Then [RSeqQC](http://rseqc.sourceforge.net/) calculates the reads distribution over exons skipping reads marked qc_failed, PCR duplicate, Unmapped, Non-primary (or secondary).
@@ -56,4 +56,3 @@ processing /tmp/TEST.bam.sortedByCoord.md.bam ... Finished
 [1] "analyzing /data/readDist.txt"
 Read 3 items
 ```
-Use cases and rationale are discussed in [this pre-print](https://www.biorxiv.org/content/10.1101/716829v1)
