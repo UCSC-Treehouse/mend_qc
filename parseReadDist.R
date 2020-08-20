@@ -48,12 +48,12 @@ if ( ! file.info(f)$size==0){
 
   result <- tibble(input = basename (f), 
                    MND = mnd_count, 
-                   MEND = mend_count,
+                   MEND = round(mend_count,2),
                    treehouse_compendium_qc = ifelse(MEND > treehouse_compendium_threshold, "PASS", "FAIL"))
  
   write_tsv(result, file.path(dirname(f), "/bam_mend_qc.tsv"))
 
-  toJSON(result) %>% write(file.path(dirname(f), "/bam_umend_qc.json"))
+  toJSON(result) %>% write(file.path(dirname(f), "/bam_mend_qc.json"))
   
 }
 
