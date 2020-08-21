@@ -8,8 +8,8 @@ Treehouse applies a threshold of 10 million MEND reads to triage incoming sample
 
 ## Output
 * readDist.txt: The output of RSeqQC read_distribution.py (~1kb)
-* bam_umend_qc.tsv: uniqMappedNonDupeReadCount, estExonicUniqMappedNonDupeReadCount and PASS/FAIL
-* bam_umend_qc.json: Same as bam_umend_qc.tsv but in json format
+* bam_mend_qc.tsv: MND, MEND and treehouse_compendium_qc (PASS/FAIL)
+* bam_mend_qc.json: Same as bam_mend_qc.tsv but in json format
 * sortedByCoord.md.bam: BAM with duplicates marked sorted by coordinate
 * sortedByCoord.md.bam.bai: Index for sortedByCoord.md.bam
 
@@ -21,7 +21,7 @@ docker run --rm \
   -v <path to bam file>:/inputs/sample.bam \
   -v <path to output>:/outputs \
   -v <path to tmp space>:/tmp \
-  ucsctreehouse/bam-umend-qc \
+  ucsctreehouse/bam-mend-qc \
     /inputs/sample.bam \
     /outputs
 ```
