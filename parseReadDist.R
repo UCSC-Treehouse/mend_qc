@@ -1,61 +1,42 @@
 #!/usr/bin/Rscript
 
+options(stringsAsFactors=FALSE)
+
 f <- commandArgs(TRUE)[1]
 print(paste0("analyzing ", f))
 
-library(dplyr)
-library(readr)
-library(rjson)
-
-exonic_groups <- c("CDS_Exons", "5'UTR_Exons", "3'UTR_Exons")
-
-treehouse_compendium_threshold <- 10E6
 
 if ( ! file.info(f)$size==0){
 	
-  # import tags per read (top table)
-  lines_for_tags_per_read <- read_lines(f, n_max = 3)  
-  tags_per_read <- read_fwf(lines_for_tags_per_read,
-                                   fwf_empty(gsub("\\b \\b", "\x1F", lines_for_tags_per_read),
-                                                    col_names = c("Measurement", "Count")))
-  # gsub("\\b \\b", "\x1F",...) transforms the single spaces to the ascii unit separator character
-  # str_replace doesn't work here
-  
-  read_count_doubled <- tags_per_read %>%
-    filter(Measurement == "Total Reads") %>%
-    pull(Count)
-  
-  tag_count <- tags_per_read %>%
-    filter(Measurement == "Total Tags") %>%
-    pull(Count)
-  
-  reads_per_tag <- round(read_count_doubled / tag_count, 2)
+	distVals=read.table(f, skip=4, sep="", nrows=10, header=T)
+	exonicGroups=c("CDS_Exons", "5'UTR_Exons", "3'UTR_Exons")
+	exonicTagCount= sum(subset(distVals, Group %in% exonicGroups)$Tag_count)
+	
+	totalValsRaw=scan(f, what="list", sep="\n", comment.char="", nlines=3)
+	readCountTimes2=as.numeric(gsub("[^0-9]*", "", totalValsRaw[grep("Total Reads", totalValsRaw)]))
+	tagCount=as.numeric(gsub("[^0-9]*", "", totalValsRaw[grep("Total Tags", totalValsRaw)]))
+	readsPerTag= round(readCountTimes2 /tagCount, 2)
+	
+	estExonicReadsTimes2= exonicTagCount*readsPerTag
+	
+	# values are divided by two because read_distribution.py counts the ends of a read separately
+	readCount= readCountTimes2/2
+	estExonicReads= estExonicReadsTimes2/2
+	
+	result=data.frame(input=basename(f), 
+	                  MND=readCount,
+                    MEND=estExonicReads)
+	
+	if(estExonicReads>10E6) {
+		result$treehouse_compendium_qc="PASS"
+	} else {
+		result$treehouse_compendium_qc="FAIL"
+	}
+  write.table(result, file=paste0(dirname(f), "/bam_mend_qc.tsv"), quote=FALSE, sep="\t", row.names=FALSE)
 
-  # import tags per group (bottom table)  
-    tags_by_group <- read_lines(f, skip = 4, n_max = 11) %>%
-    read_table()
-  
-  exonic_tag_count <- tags_by_group %>%
-    filter(Group %in% exonic_groups) %>%
-    pull(Tag_count) %>%
-    sum
-  
-  mend_count_doubled <- exonic_tag_count * reads_per_tag
-  
-  mend_count <- mend_count_doubled / 2
-  
-  mnd_count <-  read_count_doubled / 2
-
-  result <- tibble(input = basename (f), 
-                   MND = mnd_count, 
-                   MEND = round(mend_count,2),
-                   treehouse_compendium_qc = ifelse(MEND > treehouse_compendium_threshold, "PASS", "FAIL"))
- 
-  write_tsv(result, file.path(dirname(f), "/bam_mend_qc.tsv"))
-
-  toJSON(result) %>% write(file.path(dirname(f), "/bam_mend_qc.json"))
-  
+  library(rjson)
+  sink(paste0(dirname(f), "/bam_mend_qc.json"))
+  cat(toJSON(result))
+  sink()
 }
-
-
 
