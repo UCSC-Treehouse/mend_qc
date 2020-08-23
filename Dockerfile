@@ -20,7 +20,7 @@ WORKDIR /app
 ADD ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-RUN R -e 'install.packages(c("rjson", "dplyr",  "readr"), repos="http://cran.us.r-project.org")'
+RUN R -e 'install.packages(c("rjson"), repos="http://cran.us.r-project.org")'
 
 WORKDIR /app
 ADD . /app
