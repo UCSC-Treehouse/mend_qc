@@ -16,7 +16,7 @@ sambamba view -h /tmp/$UUID.sortedByName.bam | samblaster \
 rm /tmp/$UUID.sortedByName.bam
 
 echo "Sorting by coordinate..."
-sambamba sort --show-progress -t 4 --out=/tmp/$UUID.sortedByCoord.md.bam /tmp/$UUID.sortedByName.md.bam
+sambamba sort -t 4 --out=/tmp/$UUID.sortedByCoord.md.bam /tmp/$UUID.sortedByName.md.bam
 rm /tmp/$UUID.sortedByName.md.bam
 
 echo "Counting reads..."
