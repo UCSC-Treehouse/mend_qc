@@ -20,7 +20,8 @@ WORKDIR /app
 ADD ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-RUN R -e 'install.packages(c("rjson"), repos="http://cran.us.r-project.org")'
+RUN wget -q https://cran.microsoft.com/snapshot/2015-07-29/src/contrib/rjson_0.2.15.tar.gz
+RUN R -e 'install.packages("./rjson_0.2.15.tar.gz", repos=NULL)'
 
 WORKDIR /app
 ADD . /app
