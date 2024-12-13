@@ -24,7 +24,7 @@ docker run --rm \
     /outputs
 ```
 
-Optionally, specify a bed file as the third argument (after "/outputs"). The bed file needs to be formatted as specified by RSeQC
+Optionally, specify a bed file as the third argument (after "/outputs"). The bed file needs to be formatted as specified by RSeQC. If not specified, is uses a bed file containing exon definitions specified by GENCODE_v23_basic in hg38 coordinates.
 
 Note: Intermediate bam files are created under /tmp within the docker container.
 
