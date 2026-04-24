@@ -1,5 +1,5 @@
 # MEND QC
-Calculates the number of Mapped Exonic Non-Duplicate (MEND) reads in a bam file containing RNA-Seq data.
+Calculates the number of Mapped Exonic Non-Duplicate (MEND) reads in a bam file containing RNA-Seq data as described at [doi:10.1093/gigascience/giab011](https://doi.org/10.1093/gigascience/giab011).
 
 ## Overview
 [samblaster](https://github.com/GregoryFaust/samblaster) is used to mark duplicates and [sambamba](http://lomereiter.github.io/sambamba/) is used to sort. Then [RSeqQC](http://rseqc.sourceforge.net/) calculates the reads distribution over exons skipping reads marked qc_failed, PCR duplicate, Unmapped, Non-primary (or secondary). The [MEND qc](https://github.com/UCSC-Treehouse/mend_qc) script parseReadDist.R estimates the number of MEND reads by counting tags in CDS exons, 5' UTR exons and 3' UTR exons and multiplying by reads per tag. 
